@@ -34,6 +34,9 @@ NOTICE: This library is 100% experimental. It probably wont kill you, but may fo
       end
   
     end
+    
+    app = Basic.new(300, 200, "OpenGL with Ruby") # create new application with 300x200 window 
+    app.start
 
     
 # Examples
