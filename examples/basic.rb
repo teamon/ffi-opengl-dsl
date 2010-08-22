@@ -1,86 +1,22 @@
 require_relative "../lib/ffi-opengl-dsl"
 
-class Foo
-  include OpenGL::Helpers
-  include OpenGL::Animations
-  
-  animate :angle, :with => LinearAnimation, :in => (0..250), :step => 2
+# Basic example
+# It should show blue triangle on white background
+
+class Basic < OpenGL::App
+  setup2D! # Needed for 2D setup
   
   def display
-    matrix do
-      color "#f90"
-      translate 100, 100
-      rotate @angle
-      triangle [0,0], [60,100], [0,100]
-    end
-  end
-end
+    clear "#fff" # Clear background with white
+    
+    color "#00fa" # You can use RGBA
 
-class Test < OpenGL::App
-  
-  animate :offset, :with => LinearAnimation, :in => (0..250), :step => 2
-  
-  animate do
-    if @angle < 360
-      @angle += 1
-    else
-      @angle = 0
-    end
-    sleep(0.01)
-  end
-  
-  def initialize(width, height, name = "Ruby FFI OpenGL")
-    super(width, height, name)
-    
-    @angle = 0
-    
-    @foo = Foo.new
-  end
-  
-  setup2D!
-  
-  def display
-    clear "#f0f"
-    
-    color "#000"
-
-    
-    
-    
-    color "#f0f"
-        
-    matrix do
-      translate 100, 100
-      rotate @angle
-      
-      quads do
-        vertex -50, -50
-        vertex -50,  50    
-        vertex  50,  50
-        vertex  50, -50
-      end
-    end
-    
-    color "#ff05"
-    
-    matrix do
-      translate @offset, 100
-      triangle [0,0], [100,100], [0,100]
-    end
-    
-    color "#fffd"
-    
-    matrix do
-      translate 200, 200
-      rotate 5*@angle
-      quad [-25,-25], [-25, 25], [25, 25], [25, -25]
-    end
-    
-    @foo.display
-    
+    translate 100, 100 # Move to (100, 100)
+    rotate 30 # Rotate 30 degrees
+    triangle [0,0], [100,100], [0,100] # draw triangle between (0,0), (100, 100) and (0, 100) points
   end
   
 end
 
-app = Test.new(400, 300)
-app.start
+app = Basic.new(400, 300, __FILE__) # create new application with 400x300 window 
+app.start # start application

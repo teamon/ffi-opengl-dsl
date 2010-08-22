@@ -48,8 +48,11 @@ module OpenGL
     
     module InstanceMethods
       def start_animations!
-        self.class.animations.each do |animation|
+        @animations = []        
+        self.class.animations.each do |a|
+          animation = a.dup
           animation.app = self
+          @animations << animation
           
           Thread.new(animation) do |anim|
             loop { anim.call }
