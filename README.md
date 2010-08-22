@@ -6,6 +6,8 @@ Currently, it provides only 2D helpers (but that will surely change).
 
 Tested on ruby 1.8.6 and 1.9.2
 
+[Documentation](http://yardoc.org/docs/frames/teamon-ffi-opengl-dsl)
+
 NOTICE: This library is 100% experimental. It probably wont kill you, but may force you to kill ruby process.
 
 ![Example](http://cl.ly/58c4fcc41da303b006eb/content)
