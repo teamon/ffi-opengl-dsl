@@ -5,19 +5,29 @@ module OpenGL
     include OpenGL::Helpers
     include OpenGL::Animations
     
+    # Default constructor
+    #
+    # @param [Fixnum] width window width
+    # @param [Fixnum] height window width
+    # @param [String] name window name
     def initialize(width, height, name = "Ruby FFI OpenGL")
       @window = {:width => width, :height => height, :name => name}
       glut_init
     end
     
+    # Starts OpenGL application
     def start
       glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB)
       glutInitWindowSize(@window[:width], @window[:height])
       glutCreateWindow(@window[:name])
-      glutDisplayFunc(method(:do_display).to_proc)
+      glutDisplayFunc(method(:_display).to_proc)
       glutIdleFunc(method(:idle).to_proc)
       glutReshapeFunc(method(:reshape).to_proc)
       start_animations!
+      
+      glEnable(GL_BLEND)
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+      
       glutMainLoop
     end
     
@@ -25,12 +35,9 @@ module OpenGL
     
     protected
     
-    def do_display
+    def _display
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
               
-      glEnable(GL_BLEND)
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-      
       matrix do
         display
       end
@@ -50,7 +57,7 @@ module OpenGL
     end
     
     def idle
-      do_display
+      _display
     end
     
     def glut_init
@@ -62,6 +69,7 @@ module OpenGL
     class << self
       attr_accessor :use2D
       
+      # Sets up 2D (pixel coordinates, proper viewport, etc.)
       def setup2D!
         OpenGL::App.use2D = true
       end

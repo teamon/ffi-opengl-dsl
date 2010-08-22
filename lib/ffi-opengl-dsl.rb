@@ -1,5 +1,5 @@
 require "ffi-opengl"
 
-require_relative "ffi-opengl-dsl/animations"
-require_relative "ffi-opengl-dsl/helpers"
-require_relative "ffi-opengl-dsl/app"
+require File.join(File.expand_path(File.dirname(__FILE__)), "ffi-opengl-dsl/animations")
+require File.join(File.expand_path(File.dirname(__FILE__)), "ffi-opengl-dsl/helpers")
+require File.join(File.expand_path(File.dirname(__FILE__)), "ffi-opengl-dsl/app")

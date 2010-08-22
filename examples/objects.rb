@@ -1,4 +1,4 @@
-require_relative "../lib/ffi-opengl-dsl"
+require File.join(File.expand_path(File.dirname(__FILE__)), "..", "lib", "ffi-opengl-dsl")
 
 class Box
   include OpenGL::Helpers
