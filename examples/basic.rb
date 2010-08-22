@@ -1,7 +1,22 @@
 require_relative "../lib/ffi-opengl-dsl"
 
-class Test
-  include OpenGL::DSL
+class Foo
+  include OpenGL::Helpers
+  include OpenGL::Animations
+  
+  animate :angle, :with => LinearAnimation, :in => (0..250), :step => 2
+  
+  def display
+    matrix do
+      color "#f90"
+      translate 100, 100
+      rotate @angle
+      triangle [0,0], [60,100], [0,100]
+    end
+  end
+end
+
+class Test < OpenGL::App
   
   animate :offset, :with => LinearAnimation, :in => (0..250), :step => 2
   
@@ -14,17 +29,26 @@ class Test
     sleep(0.01)
   end
   
-  def init
+  def initialize(width, height, name = "Ruby FFI OpenGL")
+    super(width, height, name)
+    
     @angle = 0
+    
+    @foo = Foo.new
   end
   
   setup2D!
   
   def display
-    clear "#fff"
+    clear "#f0f"
     
-    color "#00f3"
+    color "#000"
+
     
+    
+    
+    color "#f0f"
+        
     matrix do
       translate 100, 100
       rotate @angle
@@ -37,12 +61,22 @@ class Test
       end
     end
     
-    color "#f005"
+    color "#ff05"
     
     matrix do
       translate @offset, 100
       triangle [0,0], [100,100], [0,100]
     end
+    
+    color "#fffd"
+    
+    matrix do
+      translate 200, 200
+      rotate 5*@angle
+      quad [-25,-25], [-25, 25], [25, 25], [25, -25]
+    end
+    
+    @foo.display
     
   end
   

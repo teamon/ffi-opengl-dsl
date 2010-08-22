@@ -1,5 +1,10 @@
 module OpenGL
-  module DSL
+  module Animations
+    def self.included(base)
+      base.send(:include, InstanceMethods)
+      base.extend(ClassMethods)
+    end
+    
     class Animation    
       attr_accessor :app
   
@@ -39,5 +44,34 @@ module OpenGL
         set_param @value
       end
     end
+    
+    
+    module InstanceMethods
+      def start_animations!
+        self.class.animations.each do |animation|
+          animation.app = self
+          
+          Thread.new(animation) do |anim|
+            loop { anim.call }
+          end
+        end
+      end
+    end
+    
+    module ClassMethods
+      def animate(param = "", opts = {}, &block)
+        if block_given?
+          animations << BlockAnimation.new(param, opts, &block)
+        else
+          animations << opts[:with].new(param, opts)
+        end
+      end
+      
+      def animations
+        @animations ||= []
+      end
+    end
+    
+    
   end
 end
