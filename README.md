@@ -1,12 +1,14 @@
 # Ruby DSL for ffi-opengl
 
+This library provide extremely easy to use dsl for opengl.
+While providing nice wrappers it still lets you use ALL gl* functions.
+Currently, it provides only 2D helpers (but that will surely change).
 
-Tested on ruby 1.9.2
+Tested on ruby 1.8.6 and 1.9.2
 
-![Example](http://cl.ly/a984a5d7ac920118646c/content)
+NOTICE: This library is 100% experimental. It probably wont kill you, but may force you to kill ruby process.
 
-# Requirements
-    ruby 1.9.2
+![Example](http://cl.ly/58c4fcc41da303b006eb/content)
 
 # Instalation
     gem install ffi-opengl-dsl
@@ -17,16 +19,16 @@ Tested on ruby 1.9.2
     require "ffi-opengl-dsl"
     
     class Basic < OpenGL::App
-      setup2D! # Needed for 2D setup
+      setup2D!              # Needed for 2D setup
   
       def display
-        clear "#fff" # Clear background with white
+        clear "#fff"        # Clear background with white
     
-        color "#00fa" # You can use RGBA
+        color "#00fa"       # You can use RGBA
 
-        translate 100, 100 # Move to (100, 100)
-        rotate 30 # Rotate 30 degrees
-        triangle [0,0], [100,100], [0,100] # draw triangle between (0,0), (100, 100) and (0, 100) points
+        translate 100, 50   # Move 100 left and 50 up
+        rotate 30           # Rotate 30 degrees
+        rect 150, 90        # draw rectangle 150x90
       end
   
     end
@@ -45,6 +47,8 @@ Tested on ruby 1.9.2
 
     
 ## Animations
+ffi-opengl-dsl have build it animation framework
+
     # See exampes/animations.rb
     animate :offset, :with => LinearAnimation, :in => (50..250), :step => 2
 
@@ -58,3 +62,11 @@ Tested on ruby 1.9.2
       end
       sleep(0.01)
     end
+    
+## Primitives
+    square 100          # Square 100x100
+    rect 200, 100       # Rectangle (width=200, height=100)
+    circle 50           # Circle (radius=50)
+    ring 40, 50         # Ring (inner radius=40, outer radius = 50)
+    arc 30, 50, 15, 90  # Arc (inner radius=30, outer radius = 50, start angle = 15, angle = 90)
+    
